@@ -24,6 +24,7 @@
 </div>
 {% endblock %}
 
+<!--TODO: fix this-->
 {% block head %}
 {{ super() }}
 <link rel="shortcut icon" 
@@ -32,7 +33,13 @@ type="image/x-icon">
 <link rel="icon" 
 href="{{ url_for('static', filename='favicon.ico') }}"
 type="image/x-icon">
-{% endblock  %}
+{% endblock %}
+
+{% block scripts %}
+{{ super() }}
+{{ moment.include_moment() }}    
+{{ moment.locale('cn') }}
+{% endblock %}
 
 {% block content%}
 <div class="container">
