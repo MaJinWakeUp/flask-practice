@@ -1,8 +1,0 @@
-# Chapter3. Templates
-1. Basic template
-2. flask_bootstrap template
-3. Inheritage
-4. Custom Error Pages
-5. Links
-6. Static Files
-7. Time, flask_moment
