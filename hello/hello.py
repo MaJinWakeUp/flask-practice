@@ -5,10 +5,8 @@ Created on Mon Dec 21 15:27:00 2020
 @author: MaJin
 """
 
-from flask import Flask, render_template
-from flask import make_response
-from flask import redirect
-from flask import abort
+from flask import (Flask, render_template, make_response, 
+                   redirect, abort, session, url_for)
 from flask_bootstrap import Bootstrap
 from flask_moment import Moment
 from datetime import datetime
@@ -34,7 +32,7 @@ def index():
     return render_template('index.html',
             current_time=datetime.utcnow())
 '''
-# chapter4
+''' chapter4
 @app.route('/', methods=['GET','POST'])
 def index():
     name = None
@@ -44,6 +42,16 @@ def index():
         form.name.data = ''
     return render_template('index.html', form=form, 
             name=name, current_time=datetime.utcnow())
+'''
+# with session and redirect
+@app.route('/', methods=['GET', 'POST'])
+def index():
+    form = NameForm()
+    if form.validate_on_submit():
+        session['name'] = form.name.data
+        return redirect(url_for('index'))
+    return render_template('index.html', form=form,
+            name=session.get('name'))
 
 '''chapter2
 @app.route('/user/<name>')
@@ -82,5 +90,5 @@ def resp():
     return response
 
 if __name__ == '__main__':
-    app.run() 
+    app.run(debug=True) 
     # app.run(host='0.0.0.0', port=12346, debug=True, threaded = True) 
