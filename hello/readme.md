@@ -19,4 +19,4 @@
 2. Form classes, flask_wtf
 3. HTML Rendering of Forms
 4. Redirects (*Post/Redirect/Get pattern*) and user session
-5. 
+5. Message Flashing

@@ -6,7 +6,7 @@ Created on Mon Dec 21 15:27:00 2020
 """
 
 from flask import (Flask, render_template, make_response, 
-                   redirect, abort, session, url_for)
+                   redirect, abort, session, url_for, flash)
 from flask_bootstrap import Bootstrap
 from flask_moment import Moment
 from datetime import datetime
@@ -48,6 +48,9 @@ def index():
 def index():
     form = NameForm()
     if form.validate_on_submit():
+        old_name = session.get('name')
+        if old_name is not None and old_name != form.name.data:
+            flash('Looks like you have changed your name!')
         session['name'] = form.name.data
         return redirect(url_for('index'))
     return render_template('index.html', form=form,
