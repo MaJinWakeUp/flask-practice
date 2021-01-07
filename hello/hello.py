@@ -4,7 +4,8 @@ Created on Mon Dec 21 15:27:00 2020
 
 @author: MaJin
 """
-
+import os
+from flask_sqlalchemy import SQLAlchemy
 from flask import (Flask, render_template, make_response, 
                    redirect, abort, session, url_for, flash)
 from flask_bootstrap import Bootstrap
@@ -14,6 +15,8 @@ from flask_wtf import FlaskForm
 from wtforms import StringField, SubmitField
 from wtforms.validators import DataRequired
 
+basedir = os.path.abspath(os.path.dirname(__file__))
+
 # chapter4
 class NameForm(FlaskForm):
     name = StringField('What is your name?', validators=[DataRequired()])
@@ -22,9 +25,33 @@ class NameForm(FlaskForm):
 app=Flask(__name__)
 # chapter4
 app.config['SECRET_KEY'] = 'hard to guess string'
+# chapter5
+app.config['SQLALCHEMY_DATABASE_URI'] = \
+    'sqlite:///' + os.path.join(basedir, 'data.sqlite')
+app.config['SQLALCHEMY_TRACK_MODIFICATIONS'] = False
+db = SQLAlchemy(app)
 # chapter3
 bootstrap = Bootstrap(app)
 moment = Moment(app)
+
+# chapter5
+class Role(db.Model):
+    __tablename__ = 'roles'
+    id = db.Column(db.Integer, primary_key=True)
+    name = db.Column(db.String(64), unique=True)
+    users = db.relationship('User', backref='role')
+
+    def __repr__(self):
+        return '<Role %r>' % self.name
+
+class User(db.Model):
+    __tablename__ = 'users'
+    id = db.Column(db.Integer, primary_key=True)
+    username = db.Column(db.String(64), unique=True, index=True)
+    role_id = db.Column(db.Integer, db.ForeignKey('roles.id'))
+
+    def __repr__(self):
+        return '<User %r>' % self.username
 
 '''chapter3
 @app.route('/')
