@@ -27,3 +27,6 @@
 3. DataBase use in view function
 4. Integration with Python Shell
 5. Migration
+
+## Chapter 6. Mail
+1. Email
