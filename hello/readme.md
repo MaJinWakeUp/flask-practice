@@ -24,3 +24,6 @@
 ## Chapter 5. DataBase
 1. Relationship
 2. DataBase Operation
+3. DataBase use in view function
+4. Integration with Python Shell
+5. Migration
